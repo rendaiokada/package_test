@@ -8,15 +8,14 @@ import 'package:package_test/utils/login_info_provider.dart';
 import '../models/login_info.dart';
 
 final loginInfoProvider = ChangeNotifierProvider<LoginInfoProvider>(
-        (ref) => LoginInfoProvider(ref.read, false));
+    (ref) => LoginInfoProvider(false));
 
 class LoginInfoProvider extends ChangeNotifier {
-  LoginInfoProvider(this._read, this.isLoggedIn) : super();
+  LoginInfoProvider(this.isLoggedIn) : super();
 
   bool isLoggedIn;
-  final Reader _read;
 
-  void refresh(){
+  void refresh() {
     notifyListeners();
   }
 

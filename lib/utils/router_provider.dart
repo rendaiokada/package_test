@@ -48,7 +48,6 @@ final routerProvider = Provider<GoRouter>(
         ],
       ),
     ],
-    refreshListenable: ref.watch(loginInfoProvider.notifier),
     redirect: (GoRouterState state) {
       final isLoggedIn = ref.read(loginInfoProvider.notifier).isLoggedIn;
       final isLoggingIn = state.subloc == '/login';
