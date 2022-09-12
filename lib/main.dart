@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:package_test/utils/login_info_provider.dart';
+import 'package:package_test/providers/login_info_provider.dart';
 import 'package:package_test/utils/router_provider.dart';
 
 

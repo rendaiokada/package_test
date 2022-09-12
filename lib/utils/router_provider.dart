@@ -6,7 +6,7 @@ import 'package:package_test/pages/account_page.dart';
 import 'package:package_test/pages/detail_page.dart';
 import 'package:package_test/pages/home_page.dart';
 import 'package:package_test/pages/login_page.dart';
-import 'package:package_test/utils/login_info_provider.dart';
+import 'package:package_test/providers/login_info_provider.dart';
 
 import '../pages/search_page.dart';
 
