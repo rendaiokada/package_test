@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_test/providers/login_info_provider.dart';
 import 'package:package_test/utils/router_provider.dart';
 
-
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
@@ -17,13 +16,17 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
 
+    // Shared Preferenceからデータを取得
+    ref.read(loginInfoProvider).init();
+
+    // loginInfoProviderに変更があった場合にrouterをrefreshする
     ref.listen(loginInfoProvider, (_, __) {
       router.refresh();
     });
 
     return MaterialApp.router(
       routeInformationProvider: router.routeInformationProvider,
-      routeInformationParser:router.routeInformationParser,
+      routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
       title: 'GoRouter Test',
     );
