@@ -7,6 +7,7 @@ import 'package:package_test/pages/detail_page.dart';
 import 'package:package_test/pages/home_page.dart';
 import 'package:package_test/pages/login_page.dart';
 import 'package:package_test/providers/login_info_provider.dart';
+import 'package:package_test/widgets/bottom_navigation.dart';
 
 import '../pages/search_page.dart';
 
@@ -17,37 +18,76 @@ final routerProvider = Provider<GoRouter>(
     routes: <GoRoute>[
       GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) =>
-            const HomePage(),
-        routes: <GoRoute>[
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            CustomTransitionPage(
+                key: state.pageKey,
+                child: HomePage(),
+                transitionDuration: Duration.zero,
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) => child),
+
+        routes: [
           GoRoute(
             name: 'details',
             path: 'details/:fid',
-            builder: (BuildContext context, GoRouterState state) => DetailPage(
-              data: state.subloc,
-            ),
+            pageBuilder: (BuildContext context, GoRouterState state) =>
+                CustomTransitionPage(
+                    key: state.pageKey,
+                    child: DetailPage(
+                      data: state.subloc,
+                    ),
+                    transitionDuration: Duration.zero,
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) => child),
           ),
           GoRoute(
             name: 'account',
             path: 'account',
-            builder: (BuildContext context, GoRouterState state) =>
-                const AccountPage(),
+            pageBuilder: (BuildContext context, GoRouterState state) =>
+                CustomTransitionPage(
+                    key: state.pageKey,
+                    child: const AccountPage(),
+                    transitionDuration: Duration.zero,
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) => child),
           ),
           GoRoute(
             name: 'search',
             path: 'search',
-            builder: (BuildContext context, GoRouterState state) =>
-                const SearchPage(),
+            pageBuilder: (BuildContext context, GoRouterState state) =>
+                CustomTransitionPage(
+                    key: state.pageKey,
+                    child:  SearchPage(),
+                    transitionDuration: Duration.zero,
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) => child),
           ),
           GoRoute(
             name: 'login',
             path: 'login',
-            builder: (BuildContext context, GoRouterState state) =>
-                const LoginPage(),
+            pageBuilder: (BuildContext context, GoRouterState state) =>
+                CustomTransitionPage(
+                    key: state.pageKey,
+                    child: LoginPage(),
+                    transitionDuration: Duration.zero,
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) => child),
           ),
         ],
       ),
     ],
+    navigatorBuilder: (context, state, child) {
+      return Navigator(
+        onPopPage: (route, dynamic __) => false,
+        pages: [
+          MaterialPage<Widget>(
+            child: BottomNav(
+              child: child,
+            ),
+          ),
+        ],
+      );
+    },
     redirect: (GoRouterState state) {
       final isLoggedIn = ref.read(loginInfoProvider.notifier).isLoggedIn;
       final isLoggingIn = state.subloc == '/login';
