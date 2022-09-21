@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
   }
 
-  Offset _dialogOffset = Offset(0, 0);
+  Offset _dialogOffset = Offset(200, 200);
 
   @override
   Widget build(BuildContext context) {
@@ -119,57 +119,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 ),
               ],
             ),
-            Container(
-              color: Colors.black.withOpacity(0.2),
-              height: double.infinity,
-              width: double.infinity,
-            ),
-            // DraggableWidget(
-            //   bottomMargin: 80,
-            //   topMargin: 80,
-            //   intialVisibility: false,
-            //   horizontalSpace: 20,
-            //   shadowBorderRadius: 50,
-            //   child: Container(
-            //     height: 100,
-            //     width: 200,
-            //     decoration: BoxDecoration(
-            //       color: Colors.blue,
-            //     ),
-            //   ),
-            //   initialPosition: AnchoringPosition.bottomLeft,
-            //   dragController: dragController,
-            // ),
-            Container(
-              alignment: Alignment(_dialogOffset.dx, _dialogOffset.dy),
-              child: Draggable(
-                feedback: Material(
-                  //ドラッグ中に表示するWidgetを設定
-                  child: Container(
-                    child: const Text('ダイアログ'),
-                    color: Colors.red.withOpacity(0.5),
-                    alignment: Alignment.center,
-                    width: 300,
-                    height: 50,
-                  ),
-                ),
-                onDragUpdate: (DragUpdateDetails details) {
-                  print("Draggable.onUpdate: details delta: ${details.delta}");
-                  print("Draggable.onUpdate: details local: ${details.localPosition}");
-                  print("Draggable.onUpdate: details global: ${details.globalPosition}");
+            Positioned(
+              top:  _dialogOffset.dy,
+              left:  _dialogOffset.dx,
+              child: GestureDetector(
+                onPanUpdate: (tapInfo) {
+                  print(tapInfo.delta);
                   setState(() {
-                    _dialogOffset = details.localPosition;
+                    _dialogOffset += tapInfo.delta;
                   });
                 },
-                onDraggableCanceled: (Velocity velocity, Offset offset){
-                  setState(() => _dialogOffset = offset);
-                },
                 child: Container(
-                  child: const Text('ここからドラッグ'),
-                  color: Colors.red,
-                  alignment: Alignment.center,
-                  width: 300,
-                  height: 50,
+                  width: 400,
+                  height: 400,
+                  color: Colors.blue,
                 ),
               ),
             ),
