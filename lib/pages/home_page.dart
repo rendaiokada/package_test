@@ -24,6 +24,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       TextEditingController(text: "222");
   final FocusNode focusNode2 = FocusNode();
 
+  DateTime? _selectedDate;
+  bool isDialogOn = true;
+
+  var tableCalendarKey = GlobalKey();
+
   @override
   void initState() {
     webComposeEvent([focusNode1, focusNode2]);
@@ -71,13 +76,23 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           children: [
             Column(
               children: [
-                // TableCalendar(
-                //   locale: 'jp_JP',
-                //   firstDay: DateTime.utc(2010, 10, 16),
-                //   lastDay: DateTime.utc(2030, 3, 14),
-                //   focusedDay: DateTime.now(),
-                //   onDaySelected: (selectedDay, focusedDay) {},
-                // ),
+                Column(
+                  children: [
+                    TableCalendar(
+                      key: tableCalendarKey,
+                      locale: 'ja',
+                      firstDay: DateTime.utc(2010, 10, 16),
+                      lastDay: DateTime.utc(2030, 3, 14),
+                      focusedDay: DateTime.now(),
+                      currentDay: _selectedDate,
+                      onDaySelected: (selectedDay, focusedDay) {
+                        setState(() {
+                          _selectedDate = selectedDay;
+                        });
+                      },
+                    ),
+                  ],
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -120,8 +135,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               ],
             ),
             Positioned(
-              top:  _dialogOffset.dy,
-              left:  _dialogOffset.dx,
+              top: _dialogOffset.dy,
+              left: _dialogOffset.dx,
               child: GestureDetector(
                 onPanUpdate: (tapInfo) {
                   print(tapInfo.delta);
