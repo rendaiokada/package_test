@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:isar/isar.dart';
+import 'package:package_test/collections/person.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:universal_html/html.dart' as html;
 import 'dart:math' as math;
@@ -72,6 +74,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       onWillPop: () => Future.value(true),
       child: Scaffold(
         appBar: AppBar(title: Text('Home')),
+        floatingActionButton: FloatingActionButton(onPressed: () async {
+          final isar = await Isar.open([PersonSchema]);
+          final newUser = Person()..firstName = 'Renkon'..age = 25;
+
+          await isar.writeTxn(() async {
+            await isar.persons.put(newUser); // insert & update
+          });
+        }),
         body: Stack(
           children: [
             Column(

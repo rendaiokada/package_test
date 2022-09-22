@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:isar/isar.dart';
+import 'package:package_test/collections/person.dart';
 import 'package:package_test/providers/login_info_provider.dart';
 import 'package:package_test/utils/router_provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final isar = await Isar.open( [PersonSchema],);
   initializeDateFormatting('ja');
   runApp(ProviderScope(child: MyApp()));
 }
